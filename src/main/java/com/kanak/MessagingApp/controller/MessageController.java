@@ -1,7 +1,4 @@
 package com.kanak.MessagingApp.controller;
-
-//import com.kanak.MessagingApp.model.Message;
-
 import com.kanak.MessagingApp.dto.ChatMessageDTO;
 import com.kanak.MessagingApp.service.Sender;
 import org.slf4j.Logger;
@@ -14,6 +11,9 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import com.kanak.MessagingApp.dto.MessageDTO;
+
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class MessageController {
@@ -32,28 +32,35 @@ public class MessageController {
 
     @MessageMapping("/sendMessage")
     public void sendMessage(Message<ChatMessageDTO> chatMessage){
-//        chatMessage.setSessionId(headerAccessor.getSessionId());
-//        sender.send("messaging",chatMessage.getPayload().toString());
-       logger.error("Sending message to /topic/public: "+chatMessage);
-       //messagingTemplate.convertAndSend(chatMessage.getPayload())
-      // messagingTemplate.convertAndSend("/topic/public", chatMessage);
-        if(chatMessage.getPayload().getUsername()!=null)
-        messagingTemplate.convertAndSendToUser(chatMessage.getPayload().getUsername(),"/topic/public",chatMessage.getPayload().getContent());
-       else
-            messagingTemplate.convertAndSend("/topic/public", chatMessage);
-        logger.error("Message :  "+chatMessage.getPayload());
-       logger.error("Message sent to /topic/public: "+chatMessage);
+       logger.error("Sending message to /topic/public topic ");
+        //ConcurrentHashMap<String,String> hashMap= (ConcurrentHashMap<String, String>) chatMessage.getHeaders().get("simpSessionAttributes");
+        String userName=chatMessage.getPayload().getSender();
+        String content=chatMessage.getPayload().getContent();
+        String type=chatMessage.getPayload().getType();
+        logger.error("username : "+userName);
+        logger.error("Content : "+content);
+        logger.error("type : "+type);
+//        if(chatMessage.getPayload().getSender()!=null)
+//        messagingTemplate.convertAndSendToUser(userName,"/topic/public",content);
+//       else
+           messagingTemplate.convertAndSend("/topic/public", chatMessage);
+       logger.error("Message sent to /topic/public topic ");
 
     }
 
     @MessageMapping("/addUser")
     @SendTo("/topic/public")
-    public String addUser(Message<MessageDTO> userNameMessage, SimpMessageHeaderAccessor headerAccessor){
+    public String addUser(Message<ChatMessageDTO> userNameMessage, SimpMessageHeaderAccessor headerAccessor){
         logger.error("inside add user function");
+        logger.error("username : "+ userNameMessage.getPayload().getSender());
+        logger.error("type : "+userNameMessage.getPayload().getType());
+        logger.error("content :"+userNameMessage.getPayload().getContent());
         if(headerAccessor.getSessionAttributes()!=null){
             headerAccessor.getSessionAttributes().put("username",userNameMessage.getPayload().getSender());
+            headerAccessor.getSessionAttributes().put("type",userNameMessage.getPayload().getType());
+            headerAccessor.getSessionAttributes().put("content",userNameMessage.getPayload().getContent());
         }
-        logger.error("exit add user function");
+        messagingTemplate.convertAndSend("/topic/public",userNameMessage);
         return userNameMessage.getPayload().toString();
     }
 }

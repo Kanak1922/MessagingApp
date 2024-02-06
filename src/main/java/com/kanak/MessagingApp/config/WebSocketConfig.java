@@ -31,20 +31,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setPreserveReceiveOrder(true);
     }
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(new ChannelInterceptor() {
-//            @Override
-//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-//                StompHeaderAccessor accessor =
-//                        MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-//                    Authentication user =
-//                    accessor.setUser(user);
-//                }
-//                return message;
-//            }
-//        });
-//    }
 
 }

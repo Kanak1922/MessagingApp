@@ -2,25 +2,25 @@ package com.kanak.MessagingApp.dto;
 
 public class ChatMessageDTO {
 
-    private String username;
+    private String sender;
     private String content;
     private String type;
 
     public ChatMessageDTO() {
     }
 
-    public ChatMessageDTO(String username, String content, String type) {
-        this.username = username;
+    public ChatMessageDTO(String sender, String content, String type) {
+        this.sender = sender;
         this.content = content;
         this.type = type;
     }
 
-    public String getUsername() {
-        return username;
+    public String getSender() {
+        return sender;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setSender(String username) {
+        this.sender = username;
     }
 
     public String getContent() {
