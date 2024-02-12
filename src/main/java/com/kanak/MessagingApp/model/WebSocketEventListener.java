@@ -27,6 +27,7 @@ public class WebSocketEventListener {
 
  public void handleWebSocketDisconnectListner(SessionDisconnectEvent event){
   StompHeaderAccessor headerAccessor=StompHeaderAccessor.wrap(event.getMessage());
+  logger.error("Inside handel DIsconnect function");
   String username=(String) headerAccessor.getSessionAttributes().get("username");
   if(username !=null){
    logger.info("User Disconnected: "+ username);
