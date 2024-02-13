@@ -1,0 +1,22 @@
+#container__chats {
+  background-image: url("/public/background.png");
+  background-color: #cccccc;
+  background-size: contain;
+}
+
+/* width */
+*::-webkit-scrollbar {
+  height: 0px;
+  width: 8px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  margin-block: 2px;
+  border-radius: 8px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+}
