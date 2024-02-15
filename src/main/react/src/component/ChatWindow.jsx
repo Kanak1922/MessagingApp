@@ -13,6 +13,8 @@ function ChatWindow({ username }) {
   const [newClient, setNewClient] = useState(null);
 
   useEffect(() => {
+
+    //https://messaging4-website-1efc8d9cd20d.herokuapp.com/
     var url = process.env.REACT_APP_WEBSOCKET_URL;
     var client = Stomp.client(url);
 
